@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="F_Checksum" Id="{30d0d331-f54a-4048-8765-526a8b24ae39}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_Checksum : BYTE
+VAR_INPUT
+	pBuffer 		: POINTER TO BYTE;
+	cbBuffer 	: UDINT;
+END_VAR
+VAR
+	i			: UDINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF ( pBuffer = 0 ) OR ( cbBuffer = 0 ) THEN
+	F_CheckSum := 0;
+	RETURN;
+END_IF
+
+FOR i:= 1 TO cbBuffer DO
+	F_CheckSum := F_CheckSum + pBuffer^;
+	pBuffer := pBuffer + 1;
+END_FOR]]></ST>
+    </Implementation>
+    <LineIds Name="F_Checksum">
+      <LineId Id="14" Count="7" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

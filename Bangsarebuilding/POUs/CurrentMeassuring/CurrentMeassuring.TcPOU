@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="CurrentMeassuring" Id="{507cc279-4578-4c52-961c-4bd203359e76}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM CurrentMeassuring
+VAR
+	bEnable: BOOL := TRUE;
+	arrPowerMeasure1: ARRAY [0..11] OF INT;
+	arrPowerMeasure2 : ARRAY [0..11] OF INT;
+	arrPowerMeasure3 : ARRAY [0..11] OF INT;
+	fb_Ch1: KL3403_FB;
+(*	fb_Ch2: KL3403_FB;
+	fb_Ch3: KL3403_FB;*)
+	intOldHour: INT;
+	arrLoggHour: ARRAY [0..1,0..23] OF REAL;
+	intOldDay: INT;
+	arrDataYesterday: ARRAY [0..1,0..23] OF REAL;
+	realCurrentRMS: REAL;
+	realVoltageRMS: REAL;
+	realEff_Power: REAL;
+	realPF: REAL;
+	realPeakCurrent: REAL;
+	realPeakVoltage: REAL;
+	realPeakPower: REAL;
+	realHz: REAL;
+	realMinCurrent: REAL;
+	realMinVoltage: REAL;
+END_VAR
+VAR_INPUT
+	intState: USINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+fb_Ch1(
+	bEnable:= TRUE,
+	usintState:= KL3403_State_1,
+	intDataIN:=KL3403_DataIn_1 ,
+	usintCTRL=>KL3403_Ctrl_1 ,
+	arrPowerMeasure => arrPowerMeasure1,
+	realCurrentRMS=> intCurrentLamp1,
+	realVoltageRMS=>intVoltage1
+
+
+fb_Ch2(
+	bEnable:= TRUE,
+	usintState:= KL3403_State_2,
+	intDataIN:=KL3403_DataIn_2 ,
+	usintCTRL=>KL3403_Ctrl_2 ,
+	arrPowerMeasure => arrPowerMeasure2,
+	realCurrentRMS=> intCurrentLamp2,
+	realVoltageRMS=>intVoltage2
+ );
+ *)
+fb_Ch1(
+	bEnable:= TRUE,
+	usintState:= KL3403_State_3,
+	intDataIN:=KL3403_DataIn_3 ,
+	usintCTRL=>KL3403_Ctrl_3 ,
+	arrPowerMeasure => arrPowerMeasure3,
+//	realCurrentRMS=>intCurrentSolar ,
+//	realVoltageRMS=>intVoltage3
+ );
+
+arrPowerMeasure1[0];
+arrPowerMeasure1[1];
+.TotalCurrent := KL3403_DataIn_3;
+
+fb_Ch1(
+	bEnable:= bEnable,
+	usintState:= KL3403_State_3,
+	intDataIN:= KL3403_DataIn_3,
+	usintCTRL=>KL3403_Ctrl_3 ,
+	arrPowerMeasure => arrPowerMeasure2,
+	realCurrentRMS=> realCurrentRMS, 
+	realVoltageRMS=>realVoltageRMS ,
+	realEff_Power=>realEff_Power , 
+	realPF=>realPF , 
+	realEnergyConsumtion=> , 
+	realPeakCurrent=>realPeakCurrent ,
+	realPeakVoltage=> realPeakVoltage,
+	realPeakPower=> realPeakPower, 
+	realHz=>realHz , 
+	realMinCurrent=> realMinCurrent, 
+	realMinVoltage=> realMinVoltage, 
+	realMinPower=> realMinVoltage );
+]]></ST>
+    </Implementation>
+    <LineIds Name="CurrentMeassuring">
+      <LineId Id="3" Count="19" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="23" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

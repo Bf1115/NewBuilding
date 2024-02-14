@@ -1,0 +1,904 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{9436E96F-2016-0A0B-2676-07FA0D016A3F}" Namespace="Tc2_EnOcean" AutoDeleteType="true">ST_EnOceanInData</Name>
+			<BitSize>96</BitSize>
+			<SubItem>
+				<Name>nStatus</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>nData</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>11</Elements>
+				</ArrayInfo>
+				<BitSize>88</BitSize>
+				<BitOffs>8</BitOffs>
+			</SubItem>
+		</DataType>
+		<DataType>
+			<Name GUID="{0B7591CE-879A-4F3D-4546-149ECAE9DCE9}" Namespace="Tc2_EnOcean" AutoDeleteType="true">ST_EnOceanOutData</Name>
+			<BitSize>96</BitSize>
+			<SubItem>
+				<Name>nCtrl</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>0</BitOffs>
+			</SubItem>
+			<SubItem>
+				<Name>nData</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000001}">BYTE</Type>
+				<ArrayInfo>
+					<LBound>0</LBound>
+					<Elements>11</Elements>
+				</ArrayInfo>
+				<BitSize>88</BitSize>
+				<BitOffs>8</BitOffs>
+			</SubItem>
+		</DataType>
+	</DataTypes>
+	<Project ProjectGUID="{AC6D6969-030F-4344-B249-7D11AA005E9B}" TargetNetId="172.16.5.129.1.1" ShowHideConfigurations="#x106">
+		<System>
+			<Tasks>
+				<Task Id="3" CreateSymbols="true" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
+					<Name>PlcTask</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{D58DDF57-6275-4AC0-AC30-6EB0D086CA21}" Name="Bangsarebuilding" PrjFilePath="Bangsarebuilding\Bangsarebuilding.plcproj" TmcFilePath="Bangsarebuilding\Bangsarebuilding.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Bangsarebuilding\Bangsarebuilding.tmc" TmcHash="{935EA219-D4AF-87B1-4FA4-CA9D9CC001E7}">
+					<Name>Bangsarebuilding Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>.KL3403_State_1</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_DataIn_1</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_State_2</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_DataIn_2</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_State_3</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_DataIn_3</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.DATAIN</Name>
+							<Type GUID="{9436E96F-2016-0A0B-2676-07FA0D016A3F}" Namespace="Tc2_EnOcean">ST_EnOceanInData</Type>
+						</Var>
+						<Var>
+							<Name>.PT100_Outside</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.PT100_BathRoom</Name>
+							<Comment><![CDATA[	Term3403_Ctrl_1		AT %Q*: USINT;
+	Term3403_DataOut_1	AT %Q*: INT;]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.PT100_CX1000</Name>
+							<Comment><![CDATA[	Term3403_Ctrl_2 		AT %Q*: USINT;
+	Term3403_DataOut_2	AT %Q*: INT;]]></Comment>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.Term3204_4_Data_In</Name>
+							<Comment><![CDATA[	Term3403_Ctrl_3 		AT %Q*: USINT;
+	Term3403_DataOut_3	AT %Q*: INT;
+	Term3204_1_State		AT %I*:	USINT;
+	Term3204_1_Data_In	AT %I*:	INT; (*Outside*)
+	Term3204_1_Ctrl		AT %Q*:	USINT;
+	Term3204_1_Data_Out	AT %Q*:	INT;
+	Term3204_2_State		AT %IB4:USINT;
+	Term3204_2_Data_In	AT %I*:	INT;
+	Term3204_2_Ctrl		AT %Q*:	USINT;
+	Term3204_2_Data_Out	AT %Q*:	INT;
+	Term3204_3_State		AT %I*:	USINT;
+	Term3204_3_Data_In	AT %I*:	INT;
+	Term3204_3_Ctrl		AT %Q*:	USINT;
+	Term3204_3_Data_Out	AT %Q*:	INT;
+	Term3204_4_State		AT %I*:	USINT;]]></Comment>
+							<Type>INT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>.KL3403_Ctrl_1</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_DataOut_1</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_Ctrl_2</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_DataOut_2</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_Ctrl_3</Name>
+							<Type>USINT</Type>
+						</Var>
+						<Var>
+							<Name>.KL3403_DataOut_3</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>.DATAOUT</Name>
+							<Type GUID="{0B7591CE-879A-4F3D-4546-149ECAE9DCE9}" Namespace="Tc2_EnOcean">ST_EnOceanOutData</Type>
+						</Var>
+						<Var>
+							<Name>.SpotLight</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.ReceptionLight</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.EntranceLight</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.BedRoomLight</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.Livingroom</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.WalkingClosett</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.AeLight</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.BjornLight</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.StairLight</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.ToiletLight</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.Spare</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.AirBjorn</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>.AirBedroom</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+		<Io>
+			<Device Id="1" DevType="120">
+				<Name>Device 1 (CX-BK)</Name>
+				<DevData>000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffff0000000000000100000007000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</DevData>
+				<Image Id="1" ImageFlags="#x00000030" AddrType="1" ImageType="3" SizeIn="40" SizeOut="40">
+					<Name>Image</Name>
+				</Image>
+				<Box Id="1" BoxType="9703" AmsPort="28928">
+					<Name>Box 1 (CX-BK)</Name>
+					<ImageId>5</ImageId>
+					<Vars VarGrpType="1">
+						<Name>Inputs</Name>
+						<Var>
+							<Name>State</Name>
+							<Comment><![CDATA[Bit 0 = K-Bus Err
+Bit 1 = Terminal State Err
+Bit 2 = Process Data Length Err
+Bit 7 = K-Bus invalid
+Bit 8 = No valid Inputs
+Bit 9 = K-Bus Input Update busy
+Bit 10 = K-Bus Output Update busy
+Bit 11 = Watchdog Err
+Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
+]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>Outputs</Name>
+						<Var>
+							<Name>Ctrl</Name>
+							<Type>UINT</Type>
+						</Var>
+					</Vars>
+					<BusCoupler ComplexTermSupport="true" NewHardware="true">
+						<Term Id="2" TermType="#x1000a51" Fieldbus="6">
+							<Name>Term 2 (KL2641)</Name>
+							<ImageId>31</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>Manual State</Name>
+									<Type>BIT</Type>
+									<BitOffs>296</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Reserved</Name>
+									<Type>BIT</Type>
+									<BitOffs>297</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>.AirBjorn</Name>
+									<Type>BIT</Type>
+									<BitOffs>296</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="3" TermType="#x1000a51" Fieldbus="6">
+							<Name>Term 3 (KL2641)</Name>
+							<ImageId>31</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>Manual State</Name>
+									<Type>BIT</Type>
+									<BitOffs>298</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Reserved</Name>
+									<Type>BIT</Type>
+									<BitOffs>299</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>.AirBedroom</Name>
+									<Type>BIT</Type>
+									<BitOffs>298</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="4" TermType="#x1000a51" Fieldbus="6">
+							<Name>Term 4 (KL2641)</Name>
+							<ImageId>31</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>Manual State</Name>
+									<Type>BIT</Type>
+									<BitOffs>300</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Reserved</Name>
+									<Type>BIT</Type>
+									<BitOffs>301</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Output</Name>
+									<Type>BIT</Type>
+									<BitOffs>300</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="5" TermType="#x7dc" Fieldbus="6">
+							<Name>Term 5 (KL2012)</Name>
+							<ImageId>31</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>Output</Name>
+									<Type>BIT</Type>
+									<BitOffs>302</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>.EntranceLight</Name>
+									<Type>BIT</Type>
+									<BitOffs>303</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="6" TermType="#x7dc" Fieldbus="6">
+							<Name>Term 6 (KL2012)</Name>
+							<ImageId>31</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>.BedRoomLight</Name>
+									<Type>BIT</Type>
+									<BitOffs>304</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>.Livingroom</Name>
+									<Type>BIT</Type>
+									<BitOffs>305</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="7" TermType="#x7dc" Fieldbus="6">
+							<Name>Term 7 (KL2012)</Name>
+							<ImageId>31</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>.WalkingClosett</Name>
+									<Type>BIT</Type>
+									<BitOffs>306</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>.AeLight</Name>
+									<Type>BIT</Type>
+									<BitOffs>307</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="8" TermType="#x7dc" Fieldbus="6">
+							<Name>Term 8 (KL2012)</Name>
+							<ImageId>31</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>.Spare</Name>
+									<Type>BIT</Type>
+									<BitOffs>308</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>.ToiletLight</Name>
+									<Type>BIT</Type>
+									<BitOffs>309</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="9" TermType="#x7dc" Fieldbus="6">
+							<Name>Term 9 (KL2012)</Name>
+							<ImageId>31</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>.BjornLight</Name>
+									<Type>BIT</Type>
+									<BitOffs>310</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>.StairLight</Name>
+									<Type>BIT</Type>
+									<BitOffs>311</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="10" TermType="#x6001785" Fieldbus="6">
+							<Name>Term 10 (KL6021-0023)</Name>
+							<ImageId>32</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>nStatus</Name>
+									<Type>USINT</Type>
+									<BitOffs>32</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 0</Name>
+									<Type>USINT</Type>
+									<BitOffs>40</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 1</Name>
+									<Type>USINT</Type>
+									<BitOffs>48</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 2</Name>
+									<Type>USINT</Type>
+									<BitOffs>56</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 3</Name>
+									<Type>USINT</Type>
+									<BitOffs>64</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 4</Name>
+									<Type>USINT</Type>
+									<BitOffs>72</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 5</Name>
+									<Type>USINT</Type>
+									<BitOffs>80</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 6</Name>
+									<Type>USINT</Type>
+									<BitOffs>88</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 7</Name>
+									<Type>USINT</Type>
+									<BitOffs>96</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 8</Name>
+									<Type>USINT</Type>
+									<BitOffs>104</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 9</Name>
+									<Type>USINT</Type>
+									<BitOffs>112</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In 10</Name>
+									<Type>USINT</Type>
+									<BitOffs>120</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>nCtrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>32</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 0</Name>
+									<Type>USINT</Type>
+									<BitOffs>40</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 1</Name>
+									<Type>USINT</Type>
+									<BitOffs>48</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 2</Name>
+									<Type>USINT</Type>
+									<BitOffs>56</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 3</Name>
+									<Type>USINT</Type>
+									<BitOffs>64</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 4</Name>
+									<Type>USINT</Type>
+									<BitOffs>72</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 5</Name>
+									<Type>USINT</Type>
+									<BitOffs>80</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 6</Name>
+									<Type>USINT</Type>
+									<BitOffs>88</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 7</Name>
+									<Type>USINT</Type>
+									<BitOffs>96</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 8</Name>
+									<Type>USINT</Type>
+									<BitOffs>104</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 9</Name>
+									<Type>USINT</Type>
+									<BitOffs>112</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out 10</Name>
+									<Type>USINT</Type>
+									<BitOffs>120</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="11" TermType="#x3ea" Fieldbus="6">
+							<Name>Term 11 (KL1002)</Name>
+							<ImageId>7</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>302</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>303</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="12" TermType="#x450" Fieldbus="6">
+							<Name>Term 12 (KL1104)</Name>
+							<ImageId>7</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>304</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>305</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 3</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>306</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 4</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>307</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="13" TermType="#xc84" Fieldbus="6">
+							<Name>Term 13 (KL3204)</Name>
+							<ImageId>33</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>128</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>.PT100_Outside</Name>
+									<Type>INT</Type>
+									<BitOffs>136</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>128</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>136</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>152</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>.PT100_BathRoom</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>152</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 3</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>176</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>.PT100_CX1000</Name>
+									<Type>INT</Type>
+									<BitOffs>184</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>176</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>184</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 4</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>200</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>.Term3204_4_Data_In</Name>
+									<Type>INT</Type>
+									<BitOffs>208</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>200</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>208</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="14" TermType="#xd4b" Fieldbus="6">
+							<Name>Term 14 (KL3403)</Name>
+							<ImageId>33</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>.KL3403_State_1</Name>
+									<Type>USINT</Type>
+									<BitOffs>224</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>.KL3403_DataIn_3</Name>
+									<Type>INT</Type>
+									<BitOffs>232</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>.KL3403_Ctrl_1</Name>
+									<Type>USINT</Type>
+									<BitOffs>224</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>232</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>248</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>256</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>248</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>256</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 3</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>272</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>280</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>272</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>280</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="1" TermType="#x2332" Fieldbus="6">
+							<Name>End Term (KL9010)</Name>
+							<ImageId>32</ImageId>
+						</Term>
+					</BusCoupler>
+					<CxBk/>
+				</Box>
+			</Device>
+		</Io>
+	</Project>
+	<Mappings>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
+		<OwnerA Name="TIPC^Bangsarebuilding^Bangsarebuilding Instance">
+			<OwnerB Name="TIID^Device 1 (CX-BK)^Box 1 (CX-BK)">
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 0"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 1" Size="8" OffsA="8"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 10" Size="8" OffsA="80"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 2" Size="8" OffsA="16"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 3" Size="8" OffsA="24"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 4" Size="8" OffsA="32"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 5" Size="8" OffsA="40"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 6" Size="8" OffsA="48"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 7" Size="8" OffsA="56"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 8" Size="8" OffsA="64"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nData" VarB="Term 10 (KL6021-0023)^Channel 1^Data In 9" Size="8" OffsA="72"/>
+				<Link VarA="PlcTask Inputs^.DATAIN^nStatus" VarB="Term 10 (KL6021-0023)^Channel 1^nStatus"/>
+				<Link VarA="PlcTask Inputs^.KL3403_DataIn_3" VarB="Term 14 (KL3403)^Channel 1^.KL3403_DataIn_3"/>
+				<Link VarA="PlcTask Inputs^.KL3403_State_1" VarB="Term 14 (KL3403)^Channel 1^.KL3403_State_1"/>
+				<Link VarA="PlcTask Inputs^.PT100_BathRoom" VarB="Term 13 (KL3204)^Channel 2^.PT100_BathRoom"/>
+				<Link VarA="PlcTask Inputs^.PT100_CX1000" VarB="Term 13 (KL3204)^Channel 3^.PT100_CX1000"/>
+				<Link VarA="PlcTask Inputs^.PT100_Outside" VarB="Term 13 (KL3204)^Channel 1^.PT100_Outside"/>
+				<Link VarA="PlcTask Inputs^.Term3204_4_Data_In" VarB="Term 13 (KL3204)^Channel 4^.Term3204_4_Data_In"/>
+				<Link VarA="PlcTask Outputs^.AeLight" VarB="Term 7 (KL2012)^Channel 2^.AeLight"/>
+				<Link VarA="PlcTask Outputs^.AirBedroom" VarB="Term 3 (KL2641)^Channel 1^.AirBedroom"/>
+				<Link VarA="PlcTask Outputs^.AirBjorn" VarB="Term 2 (KL2641)^Channel 1^.AirBjorn"/>
+				<Link VarA="PlcTask Outputs^.BedRoomLight" VarB="Term 6 (KL2012)^Channel 1^.BedRoomLight"/>
+				<Link VarA="PlcTask Outputs^.BjornLight" VarB="Term 9 (KL2012)^Channel 1^.BjornLight"/>
+				<Link VarA="PlcTask Outputs^.DATAOUT^nCtrl" VarB="Term 10 (KL6021-0023)^Channel 1^nCtrl"/>
+				<Link VarA="PlcTask Outputs^.EntranceLight" VarB="Term 5 (KL2012)^Channel 2^.EntranceLight"/>
+				<Link VarA="PlcTask Outputs^.KL3403_Ctrl_1" VarB="Term 14 (KL3403)^Channel 1^.KL3403_Ctrl_1"/>
+				<Link VarA="PlcTask Outputs^.KL3403_DataOut_3" VarB="Term 14 (KL3403)^Channel 1^Data Out"/>
+				<Link VarA="PlcTask Outputs^.Livingroom" VarB="Term 6 (KL2012)^Channel 2^.Livingroom"/>
+				<Link VarA="PlcTask Outputs^.ReceptionLight" VarB="Term 5 (KL2012)^Channel 1^Output"/>
+				<Link VarA="PlcTask Outputs^.Spare" VarB="Term 8 (KL2012)^Channel 1^.Spare"/>
+				<Link VarA="PlcTask Outputs^.StairLight" VarB="Term 9 (KL2012)^Channel 2^.StairLight"/>
+				<Link VarA="PlcTask Outputs^.ToiletLight" VarB="Term 8 (KL2012)^Channel 2^.ToiletLight"/>
+				<Link VarA="PlcTask Outputs^.WalkingClosett" VarB="Term 7 (KL2012)^Channel 1^.WalkingClosett"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmProject>

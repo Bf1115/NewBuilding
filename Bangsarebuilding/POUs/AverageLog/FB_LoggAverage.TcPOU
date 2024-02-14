@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_LoggAverage" Id="{d71c698b-180d-48bc-8958-5d843f967eb5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LoggAverage
+VAR_INPUT
+	usTimeBase: USINT;(* In time i.e 60  for seconds and minutes or 24 for Hour *)
+	wTIMSTR : WORD;
+	rLoggdata : LREAL;
+END_VAR
+VAR_OUTPUT
+	rAverage :LREAL ;
+	arrIntern: ARRAY[0..59] OF LREAL;
+END_VAR
+VAR
+	i: USINT;
+	rMinuteAverage:  LREAL;
+	//y: INT := 100;
+	//: BOOL;
+	//bTest: BOOL;
+	usZero: USINT;
+	bTimeChanged: BOOL;
+	OldTimestring: WORD;	
+	//arrIntern: ARRAY[0..59] OF LREAL;
+END_VAR
+
+//VAR_INPUT //old ver
+//	usTimeBase: USINT;(* In time i.e 60  for seconds and minutes or 24 for Hour *)
+//	wTIMSTR : WORD;
+//	rLoggdata : LREAL;
+//END_VAR
+//VAR_OUTPUT
+//	rAverage :LREAL ;
+//	arrIntern : ARRAY[0..59] OF LREAL;
+//END_VAR
+//VAR
+//	i: USINT;
+//	rMinuteAverage:  LREAL;
+//	y: INT := 100;
+//	bFillArr: BOOL;
+//	bTest: BOOL;
+//	usZero: USINT;
+//	bTimeChanged: BOOL;
+//END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF wTIMSTR = OldTimestring THEN
+;
+ELSE
+bTimeChanged:= TRUE;
+END_IF
+OldTimestring:=wTIMSTR;
+IF bTimeChanged THEN
+rMinuteAverage :=0;
+ arrIntern[wTIMSTR] := rLoggdata;
+	IF wTIMSTR= usTimeBase -1   THEN
+	usZero := usTimeBase;
+		FOR i := 0 TO usTimeBase -1  DO
+			IF arrIntern[i] = 0 THEN
+			usZero := usZero - 1;
+			END_IF
+		rMinuteAverage := arrIntern[i]+ rMinuteAverage;
+arrIntern[i] := 0;
+
+ 			IF i = usTimeBase -1 THEN
+				IF usZero = 0 THEN
+				RETURN ;
+				END_IF
+	 		rAverage := rMinuteAverage / (usZero ) ;
+			bTimeChanged := FALSE ;
+			END_IF
+		END_FOR
+	END_IF
+END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_LoggAverage">
+      <LineId Id="3" Count="3" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="10" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

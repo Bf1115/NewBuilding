@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="Enocean_program" Id="{f3b8f28c-0a07-41e9-aca7-293bdeea09b8}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Enocean_program (* Evaluates in _RECIVER if an Enocean signal is activated
+							the other fb:s controls variables  depending on Enoceandata recieved.*)
+VAR_INPUT
+END_VAR
+VAR
+	FB_EnOceanReceive1: FB_EnOceanReceive;
+	fb_BeckhoffSooftSW4294378625	:FB_EnOceanPTM100;
+	fb_PTM100SWentrance1119127		: FB_EnOceanPTM100;
+	fb_PTM100SWbjorn1159899			: FB_EnOceanPTM100;
+	fb_PTM100SWSpareAndToilet1075788: FB_EnOceanPTM100;
+	FB_EnOceanSTM100				: FB_EnOceanSTM100;
+	FB_EnOceanSTM1556				: FB_EnOceanSTM100;
+	FB_EnOceanSTM100_2				: FB_EnOceanSTM100;
+	FB_EnOceanSTM100_3				: FB_EnOceanSTM100;
+	FB_EnOceanSTM100_4				: FB_EnOceanSTM100;
+	FB_EnOceanSTM250				: FB_EnOceanSTM250;
+	FB_EnOceanSTM100PIR360			: FB_EnOceanSTM100Generic;
+	bSwitches:ARRAY[0..7] OF BOOL ;
+	bError: BOOL;
+	nErrorId: UDINT;
+	PresentTransmiterId: UDINT;
+	FB_EnOceanReceive2: FB_EnOceanReceive;
+	ui1556: INT;
+	ui1936: INT;
+	ui58058: INT;
+	ui58059: INT;
+	ui58398: INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*1138914  Evaluates in _RECIVER if an Enocean signal  is activated, the other fb:s sets a variables  depending on Enoceandata recieved.*)
+FB_EnOceanReceive1(
+	bEnable:= TRUE, 
+	bError=> , 
+	nErrorId=> , 
+	stEnOceanReceivedData=> EnoceanResieved, 
+	stEnOceanInData:= DATAIN , 
+	stEnOceanOutData:= DATAOUT);
+//FB_EnOceanReceive1				(
+//								bEnable:=TRUE ,
+//								stEnOceanInData:=DATAIN ,
+//								stEnOceanOutData:=DATAOUT ,	
+//								bError=> ,	
+//								nErrorId=> ,	
+//								stEnOceanReceivedData=>EnoceanResieved );
+								
+fb_PTM100SWentrance1119127	(bEnable:= EnableForAllPTM100,	tWatchdog:=,	nTransmitterId:=1119127 ,	stEnOceanReceivedData:= FB_EnOceanReceive1.stEnOceanReceivedData,
+										bSwitches=>,	bError=> ,	nErrorId=> );
+fb_PTM100SWbjorn1159899		(	bEnable:= EnableForAllPTM100,	tWatchdog:=,	nTransmitterId:= 1159899,	stEnOceanReceivedData:= FB_EnOceanReceive1.stEnOceanReceivedData,
+										bSwitches=>,	bError=> ,	nErrorId=> );
+fb_PTM100SWSpareAndToilet1075788(	bEnable:= EnableForAllPTM100,	tWatchdog:=,	nTransmitterId:= 1075788,	stEnOceanReceivedData:= FB_EnOceanReceive1.stEnOceanReceivedData,
+										bSwitches=>,	bError=> ,	nErrorId=> );
+fb_BeckhoffSooftSW4294378625 (bEnable:= EnableForAllPTM100,
+							    tWatchdog:=,	nTransmitterId:= 1406393,
+								stEnOceanReceivedData:= FB_EnOceanReceive1.stEnOceanReceivedData,
+								bSwitches=>bSwitches,
+								bError=>bError ,
+								nErrorId=>nErrorId );
+
+FB_EnOceanSTM100					(bEnable:=TRUE ,	tWatchdog:=T#30m ,	nTransmitterId:=58398 ,	stEnOceanReceivedData:=FB_EnOceanReceive1.stEnOceanReceivedData ,
+										 eEnOceanRotarySwitch=>SRO4PeEnOceanRotarySwitch  ,	nSetpoint=>SRO4Psetpoint ,	nTemperature=> ,	bPresentSwitch=>SRO4bPresentSwitch ,
+										bLearnSwitch=>SRO4PbLearnSwitch ,bError=> ,	nErrorId=> );
+FB_EnOceanSTM1556					(bEnable:=TRUE ,	tWatchdog:=T#30M ,	nTransmitterId:=1556 ,	stEnOceanReceivedData:=FB_EnOceanReceive1.stEnOceanReceivedData ,
+										 eEnOceanRotarySwitch=>SRO4PeEnOceanRotarySwitch  ,	nSetpoint=>SRO4Psetpoint ,	nTemperature=> ,	bPresentSwitch=>SRO4bPresentSwitch ,
+										bLearnSwitch=>SRO4PbLearnSwitch ,bError=> ,	nErrorId=> );										
+FB_EnOceanSTM100_2			(	bEnable:=TRUE ,	tWatchdog:=T#30m ,	nTransmitterId:=58058 ,	stEnOceanReceivedData:=FB_EnOceanReceive1.stEnOceanReceivedData ,
+										eEnOceanRotarySwitch=>SRO4P_2eEnOceanRotarySwitch  ,	nSetpoint=>SRO4P_2setpoint ,	nTemperature=> ,	bPresentSwitch=>SRO4_2bPresentSwitch ,
+										bLearnSwitch=>SRO4_2PbLearnSwitch ,	bError=> ,	nErrorId=> );
+FB_EnOceanSTM100_3			(	bEnable:=TRUE ,	tWatchdog:=T#30m ,	nTransmitterId:=58059 ,	stEnOceanReceivedData:=FB_EnOceanReceive1.stEnOceanReceivedData ,
+										eEnOceanRotarySwitch=>SRO4PeEnOceanRotarySwitch  ,	nSetpoint=>SRO4P_3setpoint ,	nTemperature=> ,	bPresentSwitch=>SRO4_3bPresentSwitch ,
+										bLearnSwitch=>SRO4P_3bLearnSwitch ,	bError=> ,	nErrorId=> );
+FB_EnOceanSTM100_4			(	bEnable:=TRUE ,	tWatchdog:=T#30m ,	nTransmitterId:=1936 ,	stEnOceanReceivedData:=FB_EnOceanReceive1.stEnOceanReceivedData ,
+										eEnOceanRotarySwitch=>SRO4PeEnOceanRotarySwitch4  ,	nSetpoint=>SRO4Psetpoint4 ,	nTemperature=> ,	bPresentSwitch=>SRO4bPresentSwitch4 ,
+										bLearnSwitch=>SRO4PbLearnSwitch4 ,	bError=> ,	nErrorId=> );
+
+FB_EnOceanSTM100PIR360		(	bEnable:=TRUE ,	tWatchdog:=T#30m ,	nTransmitterId:=41490 ,	stEnOceanReceivedData:=FB_EnOceanReceive1.stEnOceanReceivedData ,
+										nDataBytes=>SPir360data ,	bError=> ,	nErrorId=> );
+FB_EnOceanSTM250				(	bEnable:=TRUE ,	tWatchdog:= ,	nTransmitterId:=25391 ,	stEnOceanReceivedData:=FB_EnOceanReceive1.stEnOceanReceivedData,
+										bState=>SRW01State ,	bLearn=> bLearnSTM250,	bError=> , 	nErrorId=> );
+
+(* Temperature is present in 1/10 grad i.e 312 means 31.2 grad*)
+PresentTransmiterId:=EnoceanResieved.nTransmitterId;
+ CASE PresentTransmiterId OF
+1556: ui1556 := ui1556 + 1;	 
+1936: ui1936 := ui1936 + 1;
+58058: ui58058 := ui58058 + 1;
+58059: ui58059 := ui58059 + 1;
+58398:	ui58398 := ui58398 + 1; 
+ END_CASE
+OutsideTemp  :=FB_EnOceanSTM100.nTemperature;
+OfficeTemp :=FB_EnOceanSTM100_2.nTemperature ;
+STM1556 := FB_EnOceanSTM1556.nTemperature ;
+BedRoomTemp :=FB_EnOceanSTM100_3.nTemperature ;
+BjornTemp:=FB_EnOceanSTM100_4.nTemperature;
+
+
+(* the array bSwitches is really 8 BYTE using only 1 bit as Boolean.
+Below they are converted to bit in 1 WORD. evaluated in CheckIfHanged*) 
+EnOceanEasyClick.0 :=FB_BeckhoffSooftSW4294378625.bSwitches[0];
+EnOceanEasyClick.1 :=FB_BeckhoffSooftSW4294378625.bSwitches[1];
+EnOceanEasyClick.4 :=FB_BeckhoffSooftSW4294378625.bSwitches[4];
+EnOceanEasyClick.5 :=FB_BeckhoffSooftSW4294378625.bSwitches[5];
+
+EnOceanPTM100SWbjorn.0 :=fb_PTM100SWbjorn1159899.bSwitches[0];
+EnOceanPTM100SWbjorn.1 :=fb_PTM100SWbjorn1159899.bSwitches[1];
+EnOceanPTM100SWbjorn.4 :=fb_PTM100SWbjorn1159899.bSwitches[4];
+EnOceanPTM100SWbjorn.5 :=fb_PTM100SWbjorn1159899.bSwitches[5];
+
+EnOceanPTM100SWentrance.0 :=fb_PTM100SWentrance1119127.bSwitches[0];
+EnOceanPTM100SWentrance.1 :=fb_PTM100SWentrance1119127.bSwitches[1];
+EnOceanPTM100SWentrance.4 :=fb_PTM100SWentrance1119127.bSwitches[4];
+EnOceanPTM100SWentrance.5 :=fb_PTM100SWentrance1119127.bSwitches[5];
+
+EnOceanPTM100SSpareAndToilet.1 :=fb_PTM100SWSpareAndToilet1075788.bSwitches[1];
+EnOceanPTM100SSpareAndToilet.5 :=fb_PTM100SWSpareAndToilet1075788.bSwitches[5];
+
+(*
+Not used in PTM Switch with 2 channels
+EnOceanPTM100SSpareAndToilet.0 :=fb_PTM100SWSpareAndToilet1075788.bSwitches[0];
+EnOceanPTM100SSpareAndToilet.2 :=fb_PTM100SWSpareAndToilet1075788.bSwitches[2];
+EnOceanPTM100SSpareAndToilet.3 :=fb_PTM100SWSpareAndToilet1075788.bSwitches[3];
+EnOceanPTM100SSpareAndToilet.4 :=fb_PTM100SWSpareAndToilet1075788.bSwitches[4];
+EnOceanPTM100SSpareAndToilet.6 :=fb_PTM100SWSpareAndToilet1075788.bSwitches[6];
+EnOceanPTM100SSpareAndToilet.7 :=fb_PTM100SWSpareAndToilet1075788.bSwitches[7];
+*)]]></ST>
+    </Implementation>
+    <LineIds Name="Enocean_program">
+      <LineId Id="3" Count="31" />
+      <LineId Id="122" Count="1" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="35" Count="17" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="111" Count="2" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="53" Count="34" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

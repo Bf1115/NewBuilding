@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Control" Id="{cc5338e3-885b-4519-99f7-2978eba0580e}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Control
+VAR
+	rtrigStairs: R_TRIG;
+	rtrigBjorn: R_TRIG;
+	rtrigBalcony: R_TRIG;
+	rtrigWindow: R_TRIG;
+	rtrigToilet: R_TRIG;
+	rtrigBedroom: R_TRIG;
+	rtrigEntrance: R_TRIG;
+	rtrigSofa: R_TRIG;
+	rtrigSpotlight: R_TRIG;
+	rtrigReception: R_TRIG;
+	rtrigEntrance2: R_TRIG;
+	rtrigSofa2: R_TRIG;
+	rtrigSpotlight2: R_TRIG;
+	rtrigReception2: R_TRIG;
+	rtrigPreparationToLeave: R_TRIG;
+	Delay: TIME := T#10S;
+	OffTimerPTM100SWbjorn: TON;
+	OffTimerPTM100SWentrance:TON;
+	OffTimerEasyClick:TON;
+	OffTimerSpareAndToilet: TON;
+	OldSummaryWordForBoolenM6: WORD;
+	VBchange: BOOL;
+	TON_InputHanged: TON;
+	TimerFoorAirBedroom: TON;
+	WorkingHourTest: BOOL;
+	rtrig4: R_TRIG;
+	rtrig5: R_TRIG;
+	rtrig1: R_TRIG;
+	rtrig0: R_TRIG;
+	A: UINT;
+	bTest: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+Control.EasyfitBjorn();(* Action uses data from Switch at Room Bjorn*)
+Control.EasyFitSpareAndToiletUppstairs();(* Action uses data from Switch at Spareroom and Toilet uppstairs*)
+Control.EasyfitEntrance(); (* Action uses data from Switch at entrance door*)
+
+
+	]]></ST>
+    </Implementation>
+    <Action Name="EasyfitBjorn" Id="{44716920-7a18-4205-80d0-0e217d1a1e02}">
+      <Implementation>
+        <ST><![CDATA[(* EasyfitBjornEasyfitEntrance has 4 buttons, controling 4 lamps press a button is on and if same button is prssed more than 1sec light goes off
+Data is evalueted in MAIN.EntrancewitchControl.EnOceanPTM100SWbjorn, i.e. .bSw0 to bSw3 are set when corresponding switch is pressed *)
+
+rtrigStairs(CLK:=Enocean_program.fb_PTM100SWbjorn1159899.bSwitches[4] );
+rtrigBjorn(CLK := Enocean_program.fb_PTM100SWbjorn1159899.bSwitches[5]);
+rtrigBalcony(CLK := Enocean_program.fb_PTM100SWbjorn1159899.bSwitches[1]);
+rtrigWindow(CLK := Enocean_program.fb_PTM100SWbjorn1159899.bSwitches[0]);
+
+IF rtrigStairs.Q THEN
+StairLight := NOT StairLight;
+END_IF
+IF rtrigBalcony.Q THEN
+	Livingroom:= NOT Livingroom ;
+END_IF
+IF rtrigBjorn.Q THEN
+	BjornLight :=NOT BjornLight;
+END_IF
+IF rtrigWindow.Q THEN
+	BedRoomLight := NOT BedRoomLight;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="EasyfitEntrance" Id="{21ddf489-ee4e-402f-97ed-5d0e6cdd0945}">
+      <Implementation>
+        <ST><![CDATA[(* EasyfitEntrance has 4 buttons, controling 4 lamps. 2 Switches doing the same jobb are used *)
+
+rtrigEntrance(CLK:= Enocean_program.fb_PTM100SWentrance1119127.bSwitches[5]  );
+rtrigSofa(CLK:=  Enocean_program.fb_PTM100SWentrance1119127.bSwitches[1] );
+rtrigSpotlight(CLK:= Enocean_program.fb_PTM100SWentrance1119127.bSwitches[4]   );
+rtrigReception(CLK:= Enocean_program.fb_PTM100SWentrance1119127.bSwitches[0]  );
+(*
+rtrigEntrance2(CLK:= Enocean_program.fb_PTM100SWentrance1119127.bSwitches[5]  );
+rtrigSofa2(CLK:=  Enocean_program.fb_PTM100SWentrance1119127.bSwitches[1] );
+rtrigSpotligh2t(CLK:= Enocean_program.fb_PTM100SWentrance1119127.bSwitches[4]   );
+rtrigReception2(CLK:= Enocean_program.fb_PTM100SWentrance1119127.bSwitches[0]  );
+*)
+
+
+(*Turn On and Off  Light at Entrance*)
+
+IF rtrigEntrance.Q  THEN(* Upper left switch *)
+	ReceptionLight := NOT ReceptionLight;
+END_IF
+IF rtrigSofa.Q  THEN(*Lower Left SW*)
+	AeLight := NOT AeLight;
+	(*IF NOT DayTime THEN	Stairs :=TRUE; END_IF*)
+END_IF
+
+IF rtrigSpotlight.Q THEN (* Upper right switch *)
+	SpotLight := NOT SpotLight;
+END_IF
+IF rtrigReception.Q THEN(*Lower Left SW*)
+	ReceptionLight := NOT ReceptionLight;
+END_IF
+
+(*
+IF rtrigEntrance2.Q  THEN(* Upper left switch *)
+	Entrance := NOT Entrance;
+END_IF
+IF rtrigSofa2.Q  THEN(*Lower Left SW*)
+	Sofa := NOT Sofa;
+	IF NOT WorkingHour THEN	Stairs :=TRUE; END_IF
+END_IF
+
+IF rtrigSpotlight2.Q THEN (* Upper right switch *)
+	Spotlight := NOT Spotlight;
+END_IF
+IF rtrigReception2.Q THEN(*Lower Left SW*)
+	Reception := NOT Reception;
+END_IF
+*)]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="EasyFitSpareAndToiletUppstairs" Id="{a02fa2a9-2419-4dd2-9dbb-066eedc06dcd}">
+      <Implementation>
+        <ST><![CDATA[(* EasyFitSpareAndToiletUppstairs has 2buttons, controling 2 lamps press a button is on and if same button is prssed more than 1sec light goes off
+Data is evalueted in MAIN.EntrancewitchControl.EasyFitSpareAndToiletUppstairs, i.e. .bSw0 to bSw3 are set when corresponding switch is pressed *)
+rtrigToilet (CLK:= Enocean_program.fb_PTM100SWSpareAndToilet1075788.bSwitches[5] , Q=> );
+rtrigBedroom(CLK:= Enocean_program.fb_PTM100SWSpareAndToilet1075788.bSwitches[1]  , Q=> );
+IF rtrigToilet.Q  THEN
+	ToiletLight:=NOT ToiletLight;
+END_IF
+IF rtrigBedroom.Q THEN
+	BedRoomLight := NOT  BedRoomLight;
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="Control">
+      <LineId Id="3" Count="4" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="48" Count="0" />
+    </LineIds>
+    <LineIds Name="Control.EasyfitBjorn">
+      <LineId Id="2" Count="20" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="Control.EasyfitEntrance">
+      <LineId Id="2" Count="45" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="Control.EasyFitSpareAndToiletUppstairs">
+      <LineId Id="2" Count="10" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

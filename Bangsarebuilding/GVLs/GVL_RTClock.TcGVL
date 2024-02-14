@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL_RTClock" Id="{c378fa52-2e1a-43c5-95bd-cbc84f0ccfe1}">
+    <Declaration><![CDATA[{attribute 'Tc2GvlVarNames'}
+VAR_GLOBAL
+	stTime: TIMESTRUCT;
+	PCTime: STRING;
+	bRTCValid: BOOL;
+	bOldWeekend: BOOL;
+	OldWorkinghour: BOOL;
+	OldDay: DWORD;
+	OldHour: DWORD;
+	OldMinute: DWORD;
+//	OldSecond: DWORD;
+	OldMounth: WORD;
+	ChangeOfMounth: BOOL;
+(*Change Variabler togels if Var has changed*)
+	ChangeWeekend: BOOL;
+	ChangeOfweek :BOOL;
+	ChangeWorkingHour: BOOL;
+	ChangeOfDay: BOOL;
+	bHourChanged: BOOL;
+	bMinuteChanged : BOOL;
+//	bSecondCanged: BOOL;
+(* Detect status*)
+	bWeekend: BOOL;
+	WorkingHour: BOOL;
+	OldYear: WORD;
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

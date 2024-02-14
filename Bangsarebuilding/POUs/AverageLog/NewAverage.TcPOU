@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="NewAverage" Id="{4dcb6e4c-9333-444b-995e-7bf1cbc23538}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM NewAverage
+VAR
+	rAverageMin: LREAL;
+	rAverageHour: LREAL;
+	rAverageDay : LREAL;
+	rLoggData: LREAL ;
+	FB_LoggAverageMonth: FB_LoggAverage;
+	FB_LoggAverageDays:  FB_LoggAverage;
+	FB_LoggAverageHours: FB_LoggAverage;
+	FB_LoggAverageMinutes: FB_LoggAverage;
+	FB_LoggAverageSeconds: FB_LoggAverage;
+(*	arrZeros : ARRAY[0..9 ]  OF sDataLogg; *)
+
+	rTestData: REAL;
+	rAverageMonth: LREAL;
+	rAverageYear: LREAL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+rLoggData := .TotalCurrent; //Test
+FB_LoggAverageSeconds(
+	usTimeBase:=60 ,
+	wTIMSTR := GVL_RTClock.stTime.wSecond, (* Array index *)
+	rLoggData:= rLoggData ,							(**)
+	rAverage=> rAverageMin);
+
+FB_LoggAverageMinutes(
+	usTimeBase:=60 ,
+	wTIMSTR := GVL_RTClock.stTIME. wMinute, (* Array index *)
+	rLoggData:= rAverageMin ,							(**)
+	rAverage=> rAverageHour );
+
+FB_LoggAverageHours(
+	usTimeBase:=24 ,
+	wTIMSTR := GVL_RTClock.stTIME. wHour  , (* Array index *)
+	rLoggData:= rAverageHour ,
+	rAverage=> rAverageDay) ;
+
+FB_LoggAverageDays( 
+	usTimeBase:= 31,
+	wTIMSTR := GVL_RTClock.stTime.wDay, (* Array index *)
+	rLoggData:= rAverageDay ,
+	rAverage =>rAverageMonth);
+
+FB_LoggAverageMonth( 
+	usTimeBase:= 31,
+	wTIMSTR := GVL_RTClock.stTime.wMonth, (* Array index *)
+	rLoggData:= rAverageMonth ,
+	rAverage =>rAverageYear);
+	]]></ST>
+    </Implementation>
+    <LineIds Name="NewAverage">
+      <LineId Id="3" Count="22" />
+      <LineId Id="27" Count="1" />
+      <LineId Id="43" Count="4" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="48" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

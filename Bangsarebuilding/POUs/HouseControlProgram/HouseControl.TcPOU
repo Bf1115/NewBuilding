@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="HouseControl" Id="{a1e03bf8-e102-41a7-ba3f-92cced89e329}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM HouseControl
+VAR
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF stTime.wHour = 18 AND stTime.wMinute =1 THEN
+StairLight := TRUE; //Cant be shut off for 1 minute 
+ELSIF stTime.wHour = 23 AND stTime.wMinute =59 THEN
+StairLight := TRUE; //Cant be shut off for 1 minute 	
+END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="HouseControl">
+      <LineId Id="13" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

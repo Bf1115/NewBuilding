@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL_IO_Enocean" Id="{8c5237cc-db44-4b8f-84f4-0f0da208b9b7}">
+    <Declaration><![CDATA[{attribute 'Tc2GvlVarNames'}
+VAR_GLOBAL
+	DATAIN 		AT %I*: ST_EnOceanInData;
+	DATAOUT 	AT %Q*: ST_EnOceanOutData;
+	SpotLight		AT %Q*:	BOOL;
+	ReceptionLight	AT %Q*:	BOOL;
+	EntranceLight	AT %Q*:	BOOL;
+	BedRoomLight	AT %Q*:	BOOL;
+	Livingroom		AT %Q*:	BOOL;
+	WalkingClosett	AT %Q*:	BOOL;
+	AeLight			AT %Q*:	BOOL;
+	BjornLight		AT %Q*:	BOOL;
+	StairLight		AT %Q*:	BOOL;
+	ToiletLight		AT %Q*:	BOOL;
+	Spare			AT %Q*:	BOOL;
+	AirBjorn 		AT %Q*: BOOL ;		
+	AirBedroom 		AT %Q*: BOOL;
+	TotalCurrent :	 	 INT;
+	PT100_Outside		AT %I*: INT;
+//	Term3403_Ctrl_1		AT %Q*: USINT;
+//	Term3403_DataOut_1	AT %Q*: INT;
+	PT100_BathRoom 		AT %I*: INT;
+//	Term3403_Ctrl_2 		AT %Q*: USINT;
+//	Term3403_DataOut_2	AT %Q*: INT;
+	PT100_CX1000 		AT %I*: INT;
+//	Term3403_Ctrl_3 		AT %Q*: USINT;
+//	Term3403_DataOut_3	AT %Q*: INT;
+//	Term3204_1_State		AT %I*:	USINT;
+//	Term3204_1_Data_In	AT %I*:	INT; (*Outside*)
+//	Term3204_1_Ctrl		AT %Q*:	USINT;
+//	Term3204_1_Data_Out	AT %Q*:	INT;
+//	Term3204_2_State		AT %IB4:USINT;
+//	Term3204_2_Data_In	AT %I*:	INT;
+//	Term3204_2_Ctrl		AT %Q*:	USINT;
+//	Term3204_2_Data_Out	AT %Q*:	INT;
+//	Term3204_3_State		AT %I*:	USINT;
+//	Term3204_3_Data_In	AT %I*:	INT;
+//	Term3204_3_Ctrl		AT %Q*:	USINT;
+//	Term3204_3_Data_Out	AT %Q*:	INT;
+//	Term3204_4_State		AT %I*:	USINT;
+	Term3204_4_Data_In	AT %I*:	INT;
+//	Term3204_4_Ctrl		AT %Q*:	USINT;
+//	Term3204_4_Data_Out	AT %Q*:	INT;
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

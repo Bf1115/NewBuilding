@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="DataExchange" Id="{c64b8b1a-45d7-4980-94c3-6f44e7a7368b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM DataExchange
+VAR
+    bWrite        : BOOL;(* Rising edge at this variable writes data to the BC/BX (Bus Terminal Controller) *)
+    bRead         : BOOL;(* Rising edge at this variable reads data from BC/BX (Bus Terminal Controller) *)
+    stTxFrame     : ST_FrameData; (* Data transported from PC/CX (x86) to BC/BX (Bus Terminal Contoroller) *)
+    stRxFrame     : ST_FrameData; (* Data transported from BC/BX (Bus Terminal Controller) to PC/CX (x86) *)
+    fbWrite       : ADSWRITE :=  ( NETID := '172.16.5.128.1.1', PORT := 800, IDXGRP := 16#4020, IDXOFFS := 500, TMOUT := DEFAULT_ADS_TIMEOUT );
+    fbRead        : ADSREAD :=  ( NETID := '172.16.5.128.1.1', PORT := 800, IDXGRP := 16#4020, IDXOFFS := 0, TMOUT := DEFAULT_ADS_TIMEOUT );
+    (* Temporary used variables *)
+    stTxToBC      : ST_FrameData;
+    stRxFromBC    : ST_FrameData;
+    i             : INT;
+    nTxState      : UDINT;
+    nRxState      : UDINT;
+    nTxErrors     : UDINT;
+    nRxErrors     : UDINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*##########################################################################################*)
+CASE nTxState OF
+    0:
+        IF bWrite THEN(* Write BC/BX data *)
+            bWrite := FALSE;
+
+            (* Prepare/modify tx data *)
+            stTxFrame.nFrameSize    := SIZEOF( stTxFrame );(* Set frame byte size *)
+            stTxFrame.nTxFrames    := stTxFrame.nTxFrames + 1;(* Increment the send frame number *)
+            stTxFrame.nRxFrames     := stRxFrame.nTxFrames;(* Report the received frame number *)
+            stTxFrame.bEnable    := NOT stTxFrame.bEnable;(* Toggle bool flag *)
+            stTxFrame.nCounter     := stTxFrame.nCounter + 1;(* Increment counter value *)
+            stTxFrame.sMsg         := CONCAT( 'Message from PC/CX, counter: ', DWORD_TO_STRING( stTxFrame.nCounter ) );(* Create some string message *)
+            stTxFrame.fU            := stTxFrame.fU + 1.2;(* Modify some floating point values *)
+            stTxFrame.fV            := stTxFrame.fV + 3.4;
+            stTxFrame.fW            := stTxFrame.fW + 5.6;
+            FOR i:= 0 TO 9 DO
+                stTxFrame.aFloats[i] := stTxFrame.aFloats[i] + i;
+            END_FOR
+            stTxFrame.nCRC         := 0;
+
+            (* Create temporary copy of tx data *)
+            stTxToBC := stTxFrame;
+
+            (* Swap REAL variables to BC/BX (Bus Terminal Controller) format *)
+            F_SwapRealEx( stTxToBC .fU );
+            F_SwapRealEx( stTxToBC .fV );
+            F_SwapRealEx( stTxToBC .fW );
+            FOR i:= 0 TO 9 DO
+                F_SwapRealEx( stTxToBC .aFloats[i] );
+            END_FOR
+    
+            (* Create CRC check number *)
+            stTxToBC .nCRC     := F_CheckSum( ADR( stTxToBC ), SIZEOF( stTxToBC ) - 1 );
+    
+            (* Send *)
+            fbWrite( WRITE := FALSE );
+            fbWrite( LEN := SIZEOF( stTxToBC ), SRCADDR := ADR( stTxToBC ), WRITE := TRUE );
+            nTxState := 1;
+        END_IF
+
+    1:(* Wait until ads write command not busy *)
+        fbWrite( WRITE := FALSE );
+        IF NOT fbWrite.BUSY THEN
+            IF NOT fbWrite.ERR THEN
+                nTxState := 0;
+            ELSE(* Ads error *)
+                nTxState := 100;
+            END_IF
+        END_IF
+
+    100: (* TODO: Error state, add error handling *)
+        nTxErrors := nTxErrors + 1;
+        nTxState := 0;
+
+END_CASE
+
+(*##########################################################################################*)
+CASE nRxState OF
+    0:
+        IF bRead THEN(* Read BC/BX data *)
+            bRead := FALSE;
+
+            fbRead( READ := FALSE );
+            fbRead( LEN := SIZEOF( stRxFromBC ), DESTADDR := ADR( stRxFromBC ), READ := TRUE );
+            nRxState := 1;
+        END_IF
+
+    1:(* Wait until ads read command not busy *)
+        fbRead( READ := FALSE );
+        IF NOT fbRead.BUSY THEN
+            IF NOT fbRead.ERR THEN
+                (* Perform simple frame length check *)
+                IF stRxFromBC.nFrameSize = SIZEOF( stRxFromBC ) THEN (* Check frame length *)
+                    (* Perform simple CRC check *)
+                    IF stRxFromBC.nCRC = F_CheckSum( ADR( stRxFromBC ), SIZEOF( stRxFromBC ) - 1 ) THEN
+
+                        (* Swap REAL variables to PC/CX (x86) format *)
+                        F_SwapRealEx( stRxFromBC.fU );
+                        F_SwapRealEx( stRxFromBC.fV );
+                        F_SwapRealEx( stRxFromBC.fW );
+                        FOR i:= 0 TO 9 DO
+                            F_SwapRealEx( stRxFromBC.aFloats[i] );
+                        END_FOR
+
+                        stRxFrame := stRxFromBC;
+                        nRxState     := 0;
+
+                    ELSE(* => Checksum error *)
+                        nRxState := 100;
+                    END_IF
+                ELSE(* => Invalid frame length *)
+                    nRxState := 100;
+                END_IF
+            ELSE(* => Ads error *)
+                nRxState := 100;
+            END_IF
+        END_IF
+
+    100: (* TODO: Error state, add error handling *)
+        nRxErrors := nRxErrors + 1;
+        nRxState := 0;
+
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="DataExchange">
+      <LineId Id="80" Count="102" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

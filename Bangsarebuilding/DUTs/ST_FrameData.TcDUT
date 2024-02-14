@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <DUT Name="ST_FrameData" Id="{041add52-a986-4c0c-9736-30a7c56ecac8}">
+    <Declaration><![CDATA[(* 8 byte aligned structure, byte size := 152 byte *)
+TYPE ST_FrameData :
+STRUCT
+    nFrameSize: DWORD;(*Frame byte size, member byte size := 4 byte*)
+    nTxFrames : DWORD;(*Tx frame number, member byte size := 4 byte*)
+    nRxFrames : DWORD;(*Rx frame number, member byte size := 4 byte*)
+    nCounter  : DWORD;(*Number value, member byte size := 4 byte*)
+    fU        : REAL;(*Floating point number, member byte size := 4 byte*)
+    fV        : REAL;(*Floating point number, member byte size := 4 byte*)
+    fW        : REAL;(*Floating point number, member byte size := 4 byte*)
+    aFloats   : ARRAY[0..9] OF REAL;(* Array of floating point numbers, array byte size := 40 byte*)
+    sMsg      : STRING;(*String variable, member byte size := 81 byte incl. String null delimiter*)
+    bEnable   : BOOL;(*Boolean flag, member byte size := 1 byte*)
+    nRsv0     : BYTE;(*Reserved byte to meet the 8 byte alignment, member byte size := 1 byte*)
+    nCRC      : BYTE;(*CRC checksum byte, member byte size := 1 byte*)
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

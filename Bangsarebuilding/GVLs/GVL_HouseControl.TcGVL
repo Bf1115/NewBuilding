@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL_HouseControl" Id="{bf963b43-2e79-4b1a-bae2-4eb8e3c513cc}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+//ShutAllOff(); //Maybee for later use
+//ShutAllOff_ElapsedTime :=DELETE( LEFT(TIME_TO_STRING(ShutAllOff.PT-ShutAllOff.ET),5),3,0);
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

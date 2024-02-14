@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVLKL3403" Id="{60e339e8-2ef4-4765-a9cf-6f3b3105072d}">
+    <Declaration><![CDATA[{attribute 'Tc2GvlVarNames'}
+VAR_GLOBAL
+	KL3403_Ctrl_1 		AT %Q*: USINT;
+	KL3403_State_1		AT %I* 	:USINT;
+	KL3403_DataOut_1	 AT %Q*: INT;
+	KL3403_DataIn_1	 	AT %I*	: INT;
+	KL3403_Ctrl_2 		AT %Q*	: USINT;
+	KL3403_State_2		AT %I* 	:USINT;
+	KL3403_DataOut_2	 AT %Q*	: INT;
+	KL3403_DataIn_2 		AT %I*	: INT;
+	KL3403_Ctrl_3 		AT %Q*	: USINT;
+	KL3403_State_3		AT %I* 	:USINT;
+	KL3403_DataOut_3	 AT %Q*	: INT;
+	KL3403_DataIn_3 		AT %I*	: INT;
+
+	intOutputStatus: INT;
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

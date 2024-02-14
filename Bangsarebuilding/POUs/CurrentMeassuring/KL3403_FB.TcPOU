@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="KL3403_FB" Id="{475f268e-7c86-48e9-9772-e63f91e0c672}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK KL3403_FB
+VAR
+	TP1: TP;
+	TP2: TP;
+	R_TRIG1: R_TRIG;
+
+	INDEX: BYTE;
+	CurrentRMS: REAL;
+	VoltageRMS: REAL;
+	EffectivePower: REAL;
+	PowerFactor: REAL;
+	EnergyConsuntion: REAL;
+	PeakCurrent: REAL;
+	PeakVoltage: REAL;
+	PeakPower: REAL;
+	Frequency: REAL;
+	MinimumCurrent: REAL;
+	MinimumVoltage: REAL;
+	MinimumPower: REAL;
+END_VAR
+VAR_INPUT
+	bEnable: BOOL;
+	usintState : INT;
+	intDataIN: INT;
+END_VAR
+VAR_OUTPUT
+	usintCTRL: USINT;
+	arrPowerMeasure: ARRAY [0..11] OF INT;
+	realCurrentRMS: REAL;
+	realVoltageRMS: REAL;
+	realEff_Power: REAL;
+	realPF: REAL;
+	realEnergyConsumtion: REAL;
+	realPeakCurrent: REAL;
+	realPeakVoltage: REAL;
+	realPeakPower: REAL;
+	realHz: REAL;
+	realMinCurrent: REAL;
+	realMinVoltage: REAL;
+	realMinPower: REAL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Update Value form KL3403*)
+
+usintCTRL := index ;
+IF usintState.0 = usintCTRL.0 THEN
+arrPowerMeasure[index] := intDataIN ;
+index := index +1;
+END_IF
+IF index >11 THEN Index := 0 ; END_IF
+
+(*Transfer data*)
+
+
+(*Show in Function Block Output*)
+realCurrentRMS :=INT_TO_REAL (arrPowerMeasure[0]);
+realVoltageRMS := INT_TO_REAL (arrPowerMeasure[1])/10.0;
+realEff_Power := INT_TO_REAL( arrPowerMeasure[2]);
+realPF := INT_TO_REAL (arrPowerMeasure[3] ) ;
+realEnergyConsumtion := INT_TO_REAL (arrPowerMeasure[4] ) ;
+realPeakCurrent := INT_TO_REAL (arrPowerMeasure[4]) ;
+realPeakVoltage := INT_TO_REAL (arrPowerMeasure[4])/10.0;
+realPeakPower := INT_TO_REAL (arrPowerMeasure[4]) ;
+realHz :=INT_TO_REAL (arrPowerMeasure[4])/10.0;
+realMinCurrent := INT_TO_REAL( arrPowerMeasure[4]);
+realMinVoltage := INT_TO_REAL (arrPowerMeasure[4] )/ 10.0;
+realMinPower := INT_TO_REAL (arrPowerMeasure[4]);]]></ST>
+    </Implementation>
+    <LineIds Name="KL3403_FB">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

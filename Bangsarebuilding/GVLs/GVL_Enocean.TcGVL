@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="GVL_Enocean" Id="{472ba22f-d19a-4a07-9e31-03b13961e5c8}">
+    <Declaration><![CDATA[{attribute 'Tc2GvlVarNames'}
+VAR_GLOBAL
+	SummaryWordForBoolenM6 : WORD;
+	OutsideTemp		: INT; 
+	STM1556 :INT;
+
+	BjornTemp 			: INT;
+	OfficeTemp		 	: INT;
+	BedRoomTemp 		: INT;
+(* Check if enocean varible has hanged*)
+	EnableForAllPTM100: BOOL := TRUE;
+	CheckIfEnoceanSwitchIsPressed: DWORD;
+	SRW01State: BOOL;
+(*Viewer Variables*)
+	EnOceanEasyClick  : BYTE; (* Status bSwitches in EnOceanEasyClick*)
+	EnOceanPTM100SWbjorn :BYTE;(* Status bSwitches in EnOceanPTM100SW*)
+	EnOceanPTM100SWentrance : BYTE;(* Status bSwitches in EnOceanPTM100SWentrance*)
+
+	SRO4PeEnOceanRotarySwitch: E_EnOceanRotarySwitch;
+	SRO4Psetpoint: INT;
+	SRO4bPresentSwitch: BOOL;
+	SRO4PbLearnSwitch: BOOL;
+
+	SRO4P_2eEnOceanRotarySwitch: E_EnOceanRotarySwitch;
+	SRO4P_2setpoint: INT;
+	SRO4_2bPresentSwitch: BOOL;
+	SRO4_2PbLearnSwitch: BOOL;
+
+	SRO4P_3eEnOceanRotarySwitch: E_EnOceanRotarySwitch;
+	SRO4P_3setpoint: INT;
+	SRO4_3bPresentSwitch: BOOL;
+	SRO4P_3bLearnSwitch: BOOL;
+
+	SRO4PeEnOceanRotarySwitch4: E_EnOceanRotarySwitch;
+	SRO4Psetpoint4: INT;
+	SRO4bPresentSwitch4: BOOL;
+	SRO4PbLearnSwitch4: BOOL;
+
+(*Timers*)
+	TurnLightsOffTimer: TON;
+	ShutAllOff: TON;
+
+
+(* Variables*)
+
+	bLearnSTM250: BOOL;
+	EnoceanResieved: ST_EnOceanReceivedData;
+	EnOceanPTM100SSpareAndToilet: BYTE;
+	SPir360data: ARRAY [0..3] OF BYTE;
+
+
+	SRO4b3PresentSwitch: BOOL;
+	SRO4P3bLearnSwitch: BOOL;
+	ShutAllOff_ElapsedTime: STRING(80);
+	
+//	PlaceHolder_IfLightsAreON		AT %QX13.7	: BOOL;		
+
+
+//	Control_ifLightsAreON 			AT %QW12: WORD;
+(*	OutputControl_ifLightsAreON 				AT %QW128: WORD; (Summary word for Boolean below
+	InputControl_ifLightsAreON					AT %IW132: WORD; (Summary word for Boolean below *)
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>
